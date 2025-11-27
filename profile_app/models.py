@@ -5,7 +5,6 @@ from .storage import overwirte_storage
 # Create your models here.
 
 def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     ext = filename.split('.')[-1]
     filename = f"profileImg.{ext}"
     return "user_{0}/{1}".format(instance.user.id, filename)
