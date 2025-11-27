@@ -26,9 +26,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         username = user.username
+        email = user.email
 
         #### hier kommt noch später Profile.objects.create(user=user, type=type)
-        Profile.objects.create(user=user, type=type, username=username)
+        Profile.objects.create(user=user, type=type, username=username, email=email)
         return user
     
 
