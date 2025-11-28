@@ -29,7 +29,7 @@ class OfferSerializer(serializers.ModelSerializer):
 
         details = validated_data.pop('offer_detail')
         user = self.context['request'].user
-        offer = Offer.objects.create(owner=user, **validated_data)
+        offer = Offer.objects.create(creator=user, **validated_data)
 
         for detail in details:
             OfferDetails.objects.create(offer=offer, **detail)

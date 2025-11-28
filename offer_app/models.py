@@ -12,7 +12,7 @@ def user_directory_path(instance, filename):
 
 
 class Offer(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="offer")
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="offer")
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=250)
     image = models.FileField(upload_to=user_directory_path, blank=True, null=True)
