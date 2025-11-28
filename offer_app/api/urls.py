@@ -1,10 +1,10 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import OffesViewSet
+from .views import OfferViewSet
 
 
 
 router = DefaultRouter()
-router.register(r"", OffesViewSet, basename="offers")
+router.register(r"", OfferViewSet, basename="offers")
 
 urlpatterns = router.urls
