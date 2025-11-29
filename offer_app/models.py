@@ -16,6 +16,9 @@ class Offer(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=250)
     image = models.FileField(upload_to=user_directory_path, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
 
 
 class OfferDetails(models.Model):
@@ -26,6 +29,10 @@ class OfferDetails(models.Model):
     price = models.IntegerField()
     features = models.JSONField(default=list)
     offer_type = models.CharField(choices=[('basic', 'basic'), ('standard', 'standard'), ('premium', 'premium')])
+
+    def __str__(self):
+        return f"/offerdetails/{self.id}"
+        
 
     class Meta:
         constraints = [
