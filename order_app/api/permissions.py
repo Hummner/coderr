@@ -7,3 +7,11 @@ class IsOwnerFromOffer(BasePermission):
         owner = obj.business_user
 
         return user == owner
+    
+class isUserCustomer(BasePermission):
+
+
+    def has_permission(self, request, view):
+        user = request.user
+
+        return user.profile.type == "customer"

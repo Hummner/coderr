@@ -4,7 +4,7 @@ from .serializers import OrderSerializer
 from rest_framework.authentication import TokenAuthentication
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from .permissions import IsOwnerFromOffer
+from .permissions import IsOwnerFromOffer, isUserCustomer
 
 
 class OrderViewset(ModelViewSet):
@@ -22,5 +22,8 @@ class OrderViewset(ModelViewSet):
             return [IsOwnerFromOffer()]
         if self.action == 'destroy':
             return [IsAdminUser()]
+        
+        if self.action == 'create':
+            return [isUserCustomer()]
 
         return [IsAuthenticated()]
