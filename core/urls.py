@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from offer_app.api.views import OfferDetailsView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('auth_app.api.urls')),
     path('api/profile/', include('profile_app.api.urls')),
     path('api/offers/', include('offer_app.api.urls')),
+    path('api/offerdetails/<pk>', OfferDetailsView.as_view())
 ]

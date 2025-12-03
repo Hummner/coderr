@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from ..models import Offer, OfferDetails
+from django.contrib.auth.models import User
 
 
 class OfferDetailsSerializer(serializers.ModelSerializer):
@@ -97,3 +98,43 @@ class OfferListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Offer
         fields = ['id', 'title', 'image', 'description', 'details', 'min_price', 'min_delivery_time', 'user_detail']
+
+
+
+class OfferRetrieveSerialzier(serializers.ModelSerializer):
+    min_price = serializers.IntegerField(read_only = True)
+    min_delivery_time = serializers.IntegerField(read_only = True)
+    details = serializers.SerializerMethodField()
+    user = serializers.PrimaryKeyRelatedField(
+        queryset= User.objects.all(),
+        source ='creator')
+
+
+
+    def get_details(self, obj):
+        details = obj.offer_detail.all()
+        data = []
+
+        for detail in details:
+            data.append({'id': detail.id, 'url': f'http://127.0.0.1:8000/api/offerdetails/{detail.id}'})
+        return data
+
+
+    class Meta:
+        model = Offer
+        fields = ['id', 'user', 'title', 'image', 'description', 'created_at', 'updated_at', 'details', 'min_price', 'min_delivery_time']
+
+class OfferDeatilsRetrieveSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OfferDetails
+        fields = [
+            "id",
+            "offer_type",
+            "title",
+            "revisions",
+            "delivery_time_in_days",
+            "price",
+            "features",
+        ]
+

@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-from ..models import Offer
-from .serializers import OfferSerializer, OfferListSerializer
+from rest_framework.generics import RetrieveAPIView
+from ..models import Offer, OfferDetails
+from .serializers import OfferSerializer, OfferListSerializer, OfferRetrieveSerialzier, OfferDeatilsRetrieveSerializer
 from rest_framework.authentication import TokenAuthentication
 from .permissions import isProfileTypeBusiness, isUserOfferCreator
 from django_filters.rest_framework import DjangoFilterBackend
@@ -27,6 +28,10 @@ class OfferViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return OfferListSerializer
+        
+        if self.action == 'retrieve':
+            return OfferRetrieveSerialzier
+        
         return OfferSerializer
 
     def get_permissions(self):
@@ -37,3 +42,9 @@ class OfferViewSet(ModelViewSet):
             return [isUserOfferCreator()]
 
         return [IsAuthenticated()]
+    
+
+class OfferDetailsView(RetrieveAPIView):
+    queryset = OfferDetails.objects.all()
+    serializer_class = OfferDeatilsRetrieveSerializer
+    authentication_classes = [TokenAuthentication]
