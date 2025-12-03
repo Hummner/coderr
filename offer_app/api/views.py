@@ -2,13 +2,14 @@ from rest_framework.viewsets import ModelViewSet
 from ..models import Offer
 from .serializers import OfferSerializer, OfferListSerializer
 from rest_framework.authentication import TokenAuthentication
-from .permissions import isProfileTypeBusiness
+from .permissions import isProfileTypeBusiness, isUserOfferCreator
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import OfferFilters
 from rest_framework import filters, pagination
 from django.db.models import Min
 from .pagination import OfferPageNumberPagination
 from rest_framework.pagination import Response
+from rest_framework.permissions import IsAuthenticated
 
 
 class OfferViewSet(ModelViewSet):
@@ -17,7 +18,6 @@ class OfferViewSet(ModelViewSet):
         min_delivery_time = Min('offer_detail__delivery_time_in_days')
     )
     authentication_classes = [TokenAuthentication]
-    permission_classes = [isProfileTypeBusiness]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filterset_class = OfferFilters
     ordering_fields = ['min_price', 'updated_at']
@@ -29,10 +29,11 @@ class OfferViewSet(ModelViewSet):
             return OfferListSerializer
         return OfferSerializer
 
-    def list(self, request, *args, **kwargs):
+    def get_permissions(self):
 
+        if self.action == 'create':
+            return [isProfileTypeBusiness()]
+        if self.action == 'destroy':
+            return [isUserOfferCreator()]
 
-        
-
-
-        return super().list(request, *args, **kwargs)
+        return [IsAuthenticated()]

@@ -38,7 +38,11 @@ class DeleteOffer(APITestCase):
     def setUp(self):
         self.user = User.objects.create(username="AdamTest", email="test@test.de", password="TestTest")
         self.profile = Profile.objects.create(user=self.user, type="business", username= self.user.username)
-        self.offer = Offer.objects.create(title="Grafikdesign-Paket LOW", description="Ein umfassendes Grafikdesign-Paket für Unternehmen.", creator = self.user)
+
+        self.user2 = User.objects.create(username="AdamTest2", email="test@test2.de", password="TestTest")
+        self.profile2 = Profile.objects.create(user=self.user2, type="business", username= self.user.username)
+
+        self.offer = Offer.objects.create(title="Grafikdesign-Paket LOW", description="Ein umfassendes Grafikdesign-Paket für Unternehmen.", creator = self.user2)
         self.client = APIClient()
         self.token = Token.objects.create(user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION = "Token " + self.token.key)
