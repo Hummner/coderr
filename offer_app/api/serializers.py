@@ -34,7 +34,31 @@ class OfferSerializer(serializers.ModelSerializer):
         for detail in details:
             OfferDetails.objects.create(offer=offer, **detail)
         return offer
+    
+    def update(self, instance, validated_data):
+        details = validated_data.pop('offer_detail', None)
 
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if details:
+            for detail in details:
+                detail_type = detail.get('offer_type', None)
+
+                if detail_type is not None:
+                    try:
+                        detail_instace = instance.offer_detail.get(offer_type=detail_type)
+                    except OfferDetails.DoesNotExist:
+                        continue
+                
+                for attr, value in detail.items():
+                    if attr == 'id' or attr == 'offer_type':
+                        continue
+
+                    setattr(detail_instace, attr, value)
+                    detail_instace.save()
+        return instance
 
     class Meta:
         model = Offer

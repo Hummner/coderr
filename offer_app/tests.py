@@ -16,7 +16,7 @@ class CreateOffer(APITestCase):
         self.client = APIClient()
         self.token = Token.objects.create(user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION = "Token " + self.token.key)
-        print(self.user)
+     
 
 
     def test_offer(self):
@@ -28,12 +28,12 @@ class CreateOffer(APITestCase):
             }
         response = self.client.post(url, data, format='json')
         self.offerId = response.data.get('id')
-        print(self.offerId)
+    
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
 
-class DeleteOffer(APITestCase):
+class DeleteOfferNoPerm(APITestCase):
 
     def setUp(self):
         self.user = User.objects.create(username="AdamTest", email="test@test.de", password="TestTest")
@@ -52,5 +52,62 @@ class DeleteOffer(APITestCase):
     def test_delete_offer(self):
         url = reverse("offers-detail", kwargs={'pk': self.offer.id})
         response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.client.logout()
+
+
+class PatchOffer(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create(username="AdamTest", email="test@test.de", password="TestTest")
+        self.profile = Profile.objects.create(user=self.user, type="business", username= self.user.username)
+
+        self.offer = Offer.objects.create(title="Grafikdesign-Paket LOW", description="Ein umfassendes Grafikdesign-Paket für Unternehmen.", creator = self.user)
+        self.client = APIClient()
+        self.token = Token.objects.create(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION = "Token " + self.token.key)
+
+
+    def test_patch_offer(self):
+        url = reverse("offers-detail", kwargs={'pk': self.offer.id})
+        data = {
+            "title": "Grafikdesign-Paket LOW PATCHED"
+        }
+        response = self.client.patch(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class PatchOfferDetails(APITestCase):
+    
+    def setUp(self):
+        self.user = User.objects.create(username="AdamTest", email="test@test.de", password="TestTest")
+        self.profile = Profile.objects.create(user=self.user, type="business", username= self.user.username)
+
+        self.offer = Offer.objects.create(title="Grafikdesign-Paket LOW", description="Ein umfassendes Grafikdesign-Paket für Unternehmen.", creator = self.user)
+        self.offerDetail = OfferDetails.objects.create(
+            offer = self.offer,
+            price = 100,
+            title = "Details Title",
+            offer_type = "basic",
+            features = ['Beest', 'Better'],
+            delivery_time_in_days = 3,
+            revisions = 0
+
+        )
+        self.client = APIClient()
+        self.token = Token.objects.create(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION = "Token " + self.token.key)
+
+    def test_patch_details(self):
+        url = reverse("offers-detail", kwargs={'pk': self.offer.id})
+
+        data = {
+            'title': 'Patched Offer Title',
+            'details' : [
+                {'offer_type':'basic', 'title': 'Patched'}
+            ]
+        }
+
+        response = self.client.patch(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        print(response.json())
