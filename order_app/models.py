@@ -18,3 +18,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     offer_detail = models.ForeignKey(OfferDetails, on_delete=models.CASCADE, related_name='order_offer_detail')
+
+
+class OrderCountInProgress(models.Model):
+    pass

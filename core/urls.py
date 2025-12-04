@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from offer_app.api.views import OfferDetailsView
+from order_app.api.views import OrderInProgress, OrderCompleted
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +25,7 @@ urlpatterns = [
     path('api/profile/', include('profile_app.api.urls')),
     path('api/offers/', include('offer_app.api.urls')),
     path('api/orders/', include('order_app.api.urls')),
-    path('api/offerdetails/<pk>', OfferDetailsView.as_view())
+    path('api/offerdetails/<pk>', OfferDetailsView.as_view()),
+    path('api/order-count/<pk>', OrderInProgress.as_view()),
+    path('api/completed-order-count/<pk>', OrderCompleted.as_view()),
 ]

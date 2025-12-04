@@ -1,10 +1,14 @@
 from rest_framework.viewsets import ModelViewSet
 from ..models import Order
-from .serializers import OrderSerializer
+from .serializers import OrderSerializer, OrderInProgressSerializer
 from rest_framework.authentication import TokenAuthentication
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .permissions import IsOwnerFromOffer, isUserCustomer
+from rest_framework.views import APIView
+from django.contrib.auth.models import User
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class OrderViewset(ModelViewSet):
@@ -27,3 +31,30 @@ class OrderViewset(ModelViewSet):
             return [isUserCustomer()]
 
         return [IsAuthenticated()]
+    
+
+class OrderInProgress(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            user = User.objects.get(id=pk)
+        except User.DoesNotExist:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        count = Order.objects.filter(Q(business_user_id=pk) & Q(status='in_progress') ).count()
+        return Response({'order_count': count})
+    
+class OrderCompleted(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            user = User.objects.get(id=pk)
+        except User.DoesNotExist:
+            return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+        count = Order.objects.filter(Q(business_user_id=pk) & Q(status='completed') ).count()
+        return Response({'order_count': count})
+    
+ 
