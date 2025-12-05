@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/profile/', include('profile_app.api.urls')),
     path('api/offers/', include('offer_app.api.urls')),
     path('api/orders/', include('order_app.api.urls')),
+    path('api/reviews/', include('review_app.api.urls')),
     path('api/offerdetails/<pk>', OfferDetailsView.as_view()),
     path('api/order-count/<pk>', OrderInProgress.as_view()),
     path('api/completed-order-count/<pk>', OrderCompleted.as_view()),
