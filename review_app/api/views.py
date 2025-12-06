@@ -3,6 +3,10 @@ from review_app.models import Review
 from .serializers import ReviewSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from .permissions import IsUserCustomer
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import ReviewFilters
 
 
 class ReviewViewset(ModelViewSet):
@@ -10,3 +14,12 @@ class ReviewViewset(ModelViewSet):
     authentication_classes = [TokenAuthentication]
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = ReviewFilters
+    ordering_fields = ['rating', 'updated_at']
+
+    def get_permissions(self):
+        if self.action == 'create':
+            return [IsUserCustomer()]
+
+        return [IsAuthenticated()]

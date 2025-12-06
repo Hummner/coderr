@@ -21,23 +21,33 @@ class ReviewSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, attrs):
+        request = self.context['request']
+        if request.method == "PATCH":
+            return self.validate_patched_fileds(request, attrs)
+        
+        if request.method == "POST":
+            return self.validate_post_request(request, attrs)
+        return attrs
+    
+
+    def validate_patched_fileds(self, request, attrs):
+        allow_fields = ['rating', 'description']
+
+        for field in request.data:
+            if field not in allow_fields:
+                raise serializers.ValidationError(f"{field} cannot be updated.", code=400)
+        return attrs
+    
+    def validate_post_request(self, request, attrs):
         business_user = attrs['business_user']
-        reviewer = self.context['request'].user
+        reviewer = request.user
 
         is_first_review = business_user.review.filter(reviewer=reviewer)
 
         if is_first_review:
             raise serializers.ValidationError("You can only submit one review for this user.")
 
-
         return attrs
-    
-
-    # def create(self, validated_data):
-    #     validated_data['reviewer'] = self.context['request'].user
-
-    #     return super().create(validated_data)
-
 
     class Meta:
         model = Review
