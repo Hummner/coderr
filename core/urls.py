@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from offer_app.api.views import OfferDetailsView
 from order_app.api.views import OrderInProgress, OrderCompleted
+from base_info_app.api.views import BaseInfo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +30,5 @@ urlpatterns = [
     path('api/offerdetails/<pk>', OfferDetailsView.as_view()),
     path('api/order-count/<pk>', OrderInProgress.as_view()),
     path('api/completed-order-count/<pk>', OrderCompleted.as_view()),
+    path('api/base-info/', BaseInfo.as_view())
 ]
