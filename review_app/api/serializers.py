@@ -45,6 +45,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         is_first_review = business_user.review.filter(reviewer=reviewer)
 
         if is_first_review:
+            return attrs
             raise serializers.ValidationError("You can only submit one review for this user.")
 
         return attrs

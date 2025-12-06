@@ -3,7 +3,7 @@ from review_app.models import Review
 from .serializers import ReviewSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsUserCustomer
+from .permissions import IsUserCustomer, IsReviewOwner
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import ReviewFilters
@@ -21,5 +21,7 @@ class ReviewViewset(ModelViewSet):
     def get_permissions(self):
         if self.action == 'create':
             return [IsUserCustomer()]
+        if self.action in ['update', 'partial_update']:
+            return [IsReviewOwner()]
 
         return [IsAuthenticated()]
