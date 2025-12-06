@@ -5,18 +5,14 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 
 class ReviewSerializer(serializers.ModelSerializer):
-
-
-
-
-    reviewer = serializers.CurrentUserDefault()
+    reviewer = serializers.HiddenField(default = serializers.CurrentUserDefault())
 
     def validate_business_user(self, value):
         business_user_id = value.id
         try:
             Profile.objects.get(Q(user_id=business_user_id) & Q(type='business'))
         except Profile.DoesNotExist:
-            raise serializers.ValidationError('A business profile for this user does not exist.')
+            raise serializers.ValidationError('This business_user does not exist.')
         
         return value
 
@@ -26,7 +22,8 @@ class ReviewSerializer(serializers.ModelSerializer):
             return self.validate_patched_fileds(request, attrs)
         
         if request.method == "POST":
-            return self.validate_post_request(request, attrs)
+            asd = self.validate_post_request(request, attrs)
+            return asd
         return attrs
     
 
@@ -45,7 +42,6 @@ class ReviewSerializer(serializers.ModelSerializer):
         is_first_review = business_user.review.filter(reviewer=reviewer)
 
         if is_first_review:
-            return attrs
             raise serializers.ValidationError("You can only submit one review for this user.")
 
         return attrs
