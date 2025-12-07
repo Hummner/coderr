@@ -1,89 +1,139 @@
-🚀 Coderr – Freelance Marketplace Backend (Django REST Framework)
+# 🚀 Coderr -- Backend API
 
-Coderr is a backend API for a freelance marketplace where business users can create service offers and customers can purchase these services. The platform supports user profiles, offers with multiple detail packages, orders, and reviews.
+## 🧾 Description
 
-This repository contains the complete backend implementation built with Django and Django REST Framework.
+Coderr is the **backend API** for a freelance marketplace platform.
+Business users can create service offers, and customers can purchase
+those services.
 
-📦 Features
+This backend is built with **Django** and **Django REST Framework**,
+featuring authentication, profiles, offers, orders, and reviews.
 
-User authentication (Token-based)
+📌 **Frontend and backend are in separate repositories.** This
+repository contains only the backend code.
 
-Two profile types: Business and Customer
+------------------------------------------------------------------------
 
-Businesses can create offers with multiple pricing tiers
+## ✨ Features
 
-Customers can place orders
+-   🔐 Token-based user authentication
+-   👤 Business & Customer profiles
+-   🛍️ Businesses can create offers with multiple pricing tiers
+-   📦 Customers can purchase services
+-   ⭐ Customers can rate businesses with reviews
+-   🧩 Filtering, searching, ordering, and pagination
+-   🔐 Strong permission system for secure actions
+-   🧪 Ready for Postman & API testing
 
-Customers can leave reviews for business users
+------------------------------------------------------------------------
 
-Permissions ensure only authorized users can perform actions
+## 🛠️ Tech Stack
 
-Filtering, ordering, and pagination for listings
+-   Python 3.10+
+-   Django
+-   Django REST Framework
+-   django-filter
+-   Token Authentication
+-   SQLite or PostgreSQL
 
-⚙️ Tech Stack
+------------------------------------------------------------------------
 
-Python 3
+## 📁 Project Structure
 
-Django
+``` plaintext
+coderr/
+├── auth_app/
+├── offer_app/
+├── order_app/
+├── profile_app/
+├── review_app/
+│
+├── core/              # Django project settings
+├── requirements.txt
+├── manage.py
+└── README.md
+```
 
-Django REST Framework
+------------------------------------------------------------------------
 
-django-filter
+## ⚙️ Installation & Setup
 
-Token Authentication
+### 1️⃣ Clone the repository
 
-SQLite/PostgreSQL (depending on setup)
-
-🛠️ Installation
-
-Follow these steps to run Coderr locally:
-
-1️⃣ Clone the repository
+``` bash
 git clone https://github.com/Hummner/coderr.git
 cd coderr
+```
 
-2️⃣ Create a virtual environment
+### 2️⃣ Create a virtual environment
+
+``` bash
 python -m venv venv
+```
 
-3️⃣ Activate the virtual environment
+### 3️⃣ Activate the environment
 
-Linux/Mac:
+**Windows:**
 
-source venv/bin/activate
-
-
-Windows:
-
+``` bash
 venv\Scripts\activate
+```
 
-4️⃣ Install dependencies
+**macOS / Linux:**
+
+``` bash
+source venv/bin/activate
+```
+
+### 4️⃣ Install dependencies
+
+``` bash
 pip install -r requirements.txt
+```
 
-5️⃣ Apply database migrations
+### 5️⃣ Apply database migrations
+
+``` bash
 python manage.py migrate
+```
 
-6️⃣ Create a superuser (admin account)
+### 6️⃣ Create a superuser
+
+``` bash
 python manage.py createsuperuser
+```
 
-7️⃣ Run the development server
+### 7️⃣ Run the server
+
+``` bash
 python manage.py runserver
+```
 
+Your API is now running at: 👉 http://127.0.0.1:8000/
 
-The API will be available at:
+------------------------------------------------------------------------
 
-http://127.0.0.1:8000/
+## 🔐 Authentication
 
-🔐 Authentication
+Coderr uses **Token Authentication**. After logging in, include your
+token in every request:
 
-Coderr uses Token Authentication.
-After logging in, include your token in every request:
+``` http
+Authorization: Token your_token_here
+```
 
-Authorization: Token <your_token>
+------------------------------------------------------------------------
 
-📘 Basic API Structure
-Resource	Description
-Profiles	Business & Customer profiles
-Offers	Created by business users
-Offer Details	Pricing tiers/packages
-Orders	Customers purchase service packages
-Reviews	Customers leave reviews for businesses
+## 📘 Main API Modules
+
+-   👤 Profile system
+-   🛍️ Offers & Offer Details
+-   📦 Orders
+-   ⭐ Reviews
+-   🔐 Role-based permissions
+
+------------------------------------------------------------------------
+
+## 📄 License
+
+MIT License --- open for personal and commercial use.
