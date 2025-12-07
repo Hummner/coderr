@@ -16,7 +16,7 @@ class ReviewViewset(ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_class = ReviewFilters
-    ordering_fields = ['rating', 'updated_at']
+    ordering_fields = ['rating', '-updated_at']
 
     def get_permissions(self):
         if self.action == 'create':
@@ -25,3 +25,6 @@ class ReviewViewset(ModelViewSet):
             return [IsReviewOwner()]
 
         return [IsAuthenticated()]
+    
+    def perform_create(self, serializer):
+        serializer.save(reviewer=self.request.user)

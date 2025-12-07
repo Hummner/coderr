@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 
 class ReviewSerializer(serializers.ModelSerializer):
-    reviewer = serializers.HiddenField(default = serializers.CurrentUserDefault())
-
     def validate_business_user(self, value):
         business_user_id = value.id
         try:
@@ -48,5 +46,5 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ['id', 'reviewer', 'rating', 'created_at', 'uploaded_at', 'description', 'business_user']
-        read_only_fields = ['reviewer', 'uploaded_at', 'created_at']
+        fields = ['id', 'reviewer', 'rating', 'created_at', 'updated_at', 'description', 'business_user']
+        read_only_fields = ['reviewer', 'updated_at', 'created_at']

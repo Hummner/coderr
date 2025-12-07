@@ -14,7 +14,7 @@ class Order(models.Model):
     price = models.IntegerField()
     features = models.JSONField(default=list)
     offer_type = models.CharField(choices=[('basic', 'basic'), ('standard', 'standard'), ('premium', 'premium')])
-    status = models.CharField(choices=[('in_progress', 'in_progress'), ('completed', 'completed')], default="in_progress")
+    status = models.CharField(choices=[('in_progress', 'in_progress'), ('completed', 'completed'), ('cancelled','cancelled')], default="in_progress")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     offer_detail = models.ForeignKey(OfferDetails, on_delete=models.CASCADE, related_name='order_offer_detail')
