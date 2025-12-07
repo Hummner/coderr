@@ -1,7 +1,4 @@
 from rest_framework.views import APIView
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth.models import User
 from rest_framework.response import Response
 from review_app.models import Review
 from django.db.models import Avg, Count
@@ -12,9 +9,6 @@ from offer_app.models import Offer
 
 
 class BaseInfo(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
     def get(self, request):
         stats = Review.objects.aggregate(
             review_count=Count('id'),
