@@ -124,7 +124,9 @@ class OfferListSerializer(serializers.ModelSerializer):
             'details',
             'min_price',
             'min_delivery_time',
-            'user_detail'
+            'user_detail',
+            'updated_at',
+            'created_at'
         ]
 
 

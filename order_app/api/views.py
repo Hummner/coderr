@@ -97,4 +97,4 @@ class OrderCompleted(APIView):
             Q(business_user_id=pk) & Q(status='completed')
         ).count()
 
-        return Response({'order_count': count})
+        return Response({'completed_order_count': count})
