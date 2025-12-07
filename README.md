@@ -134,6 +134,3 @@ Authorization: Token your_token_here
 
 ------------------------------------------------------------------------
 
-## 📄 License
-
-MIT License --- open for personal and commercial use.
