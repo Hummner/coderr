@@ -6,10 +6,15 @@ from profile_app.models import Profile
 from offer_app.models import Offer
 
 
-
-
 class BaseInfo(APIView):
     def get(self, request):
+        """
+        Retrieve and return general application statistics, including the total number 
+        of reviews, the average review rating (rounded to two decimals), the number of 
+        business profiles, and the total number of offers. This endpoint provides a 
+        quick overview of key metrics used for dashboard or summary displays.
+        """
+        
         stats = Review.objects.aggregate(
             review_count=Count('id'),
             average_rating=Avg('rating')
