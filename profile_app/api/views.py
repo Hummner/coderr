@@ -12,11 +12,13 @@ class BusinessProfileListView(generics.ListAPIView):
     serializer_class = BusinessListSerializer
     queryset = Profile.objects.filter(type="business")
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 class CustomerProfileListView(generics.ListAPIView):
     serializer_class = CustomerListSerializer
     queryset = Profile.objects.filter(type="customer")
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 class ProfileView(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.UpdateModelMixin):
     serializer_class = ProfileSerializer
