@@ -4,6 +4,7 @@ from .views import OfferViewSet
 
 
 
+
 router = DefaultRouter()
 router.register(r"", OfferViewSet, basename="offers")
 

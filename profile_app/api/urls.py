@@ -9,8 +9,7 @@ router.register(r"", ProfileView, basename='profile')
 
 
 urlpatterns = [
-    path('business/', BusinessProfileListView.as_view(), name='business_profiles'),
-    path('customer/', CustomerProfileListView.as_view(), name='customer_profiles'),
+
 ]
 
 urlpatterns += router.urls

@@ -10,4 +10,4 @@ class Review(models.Model):
     rating = models.PositiveSmallIntegerField(choices=[(1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5")])
     description = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    uploaded_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)

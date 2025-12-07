@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from ..models import Order
-from .serializers import OrderSerializer, OrderInProgressSerializer
+from .serializers import OrderSerializer
 from rest_framework.authentication import TokenAuthentication
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated, IsAdminUser

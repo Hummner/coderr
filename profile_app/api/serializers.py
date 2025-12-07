@@ -15,8 +15,6 @@ class CustomerListSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
 
-    file = serializers.StringRelatedField()
-
     class Meta:
         model = Profile
         fields = ['user', 'username', 'type', 'first_name', 'last_name', 'file', 'location', 'tel', 'description', 'working_hours', 'type', 'email', 'created_at']

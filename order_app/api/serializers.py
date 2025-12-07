@@ -75,15 +75,15 @@ class OrderSerializer(serializers.ModelSerializer):
             "created_at",
         ]
 
-class OrderInProgressSerializer(serializers.Serializer):
+# class OrderInProgressSerializer(serializers.Serializer):
 
-    order_count = serializers.SerializerMethodField()
+#     order_count = serializers.SerializerMethodField()
 
 
-    def get_order_count(self, obj):
+#     def get_order_count(self, obj):
 
-        orders = self.context.args
+#         orders = self.context.args
         
 
-        return 
+#         return 
 

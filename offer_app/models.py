@@ -8,7 +8,8 @@ def user_directory_path(instance, filename):
     
     ext = filename.split('.')[-1]
     filename = f"offerImg.{ext}"
-    return "user_{0}/{1}".format(instance.user.id, filename)
+    name = "user_{0}/{1}".format(instance.creator.id, filename)
+    return name
 
 
 class Offer(models.Model):
