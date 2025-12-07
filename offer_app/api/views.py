@@ -10,7 +10,7 @@ from rest_framework import filters, pagination
 from django.db.models import Min
 from .pagination import OfferPageNumberPagination
 from rest_framework.pagination import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 class OfferViewSet(ModelViewSet):
@@ -56,10 +56,13 @@ class OfferViewSet(ModelViewSet):
         if self.action == 'create':
             return [isProfileTypeBusiness()]
         
-        if self.action == 'destroy':
+        if self.action in ['destroy', 'update', 'partial_update']:
             return [isUserOfferCreator()]
+        
+        if self.action == 'retrieve':
+            return [IsAuthenticated()]
 
-        return [IsAuthenticated()]
+        return [AllowAny()]
     
 
 class OfferDetailsView(RetrieveAPIView):

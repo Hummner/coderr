@@ -110,7 +110,7 @@ class OfferListSerializer(serializers.ModelSerializer):
         data = []
 
         for detail in details:
-            data.append({'id': detail.id, 'url': f'/offerdetails/{detail.id}'})
+            data.append({'id': detail.id, 'url': f'/offerdetails/{detail.id}/'})
 
         return data
 
@@ -154,7 +154,7 @@ class OfferRetrieveSerialzier(serializers.ModelSerializer):
         for detail in details:
             data.append({
                 'id': detail.id,
-                'url': f'http://127.0.0.1:8000/api/offerdetails/{detail.id}'
+                'url': f'http://127.0.0.1:8000/api/offerdetails/{detail.id}/'
             })
 
         return data
