@@ -38,7 +38,6 @@ class OfferPageNumberPagination(pagination.PageNumberPagination):
         Return the paginated response for offer queries, including pagination
         navigation links, total count, and the current page's results.
         """
-        print(self)
         return Response({
             'links': {
                 'next': self.get_next_link(),

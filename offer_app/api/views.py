@@ -54,10 +54,10 @@ class OfferViewSet(ModelViewSet):
         and all other actions require simple authentication.
         """
         if self.action == 'create':
-            return [isProfileTypeBusiness()]
+            return [IsAuthenticated(), isProfileTypeBusiness()]
         
         if self.action in ['destroy', 'update', 'partial_update']:
-            return [isUserOfferCreator()]
+            return [IsAuthenticated(), isUserOfferCreator()]
         
         if self.action == 'retrieve':
             return [IsAuthenticated()]

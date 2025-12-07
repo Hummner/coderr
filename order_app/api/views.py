@@ -40,11 +40,11 @@ class OrderViewset(ModelViewSet):
         - All other actions require authentication
         """
         if self.action in ['update', 'partial_update']:
-            return [IsOwnerFromOffer()]
+            return [IsAuthenticated(), IsOwnerFromOffer()]
         if self.action == 'destroy':
-            return [IsAdminUser()]
+            return [IsAuthenticated(), IsAdminUser()]
         if self.action == 'create':
-            return [isUserCustomer()]
+            return [IsAuthenticated(), isUserCustomer()]
         return [IsAuthenticated()]
     
 
