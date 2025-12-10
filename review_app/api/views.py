@@ -32,10 +32,10 @@ class ReviewViewset(ModelViewSet):
         delete a review, and all other actions simply require authentication.
         """
         if self.action == 'create':
-            return [IsUserCustomer()]
+            return [IsAuthenticated(), IsUserCustomer()]
 
         if self.action in ['update', 'partial_update', 'destroy']:
-            return [IsReviewOwner()]
+            return [IsAuthenticated(), IsReviewOwner()]
 
         return [IsAuthenticated()]
 
