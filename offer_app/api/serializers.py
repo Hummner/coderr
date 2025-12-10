@@ -31,6 +31,34 @@ class OfferSerializer(serializers.ModelSerializer):
 
     details = OfferDetailsSerializer(many=True, source='offer_detail')
 
+
+    def validate(self, attrs):
+        if self.context['request'].method == "POST":
+            details = attrs['offer_detail']
+            if len(details) != 3:
+                raise serializers.ValidationError({"error":"Exactly 3 offer details are required: Basic, Standard, and Premium."}, code=400)
+
+            types = {detail['offer_type'].lower() for detail in details}
+            allow_types= {'basic','standard', 'premium'}
+
+            if types != allow_types:
+                raise serializers.ValidationError({"error":"Exactly 3 offer details are required: Basic, Standard, and Premium."}, code=400)
+        
+
+        if self.context['request'].method == "PATCH":
+            if attrs['offer_detail']:
+                details = attrs['offer_detail']
+                    
+                for detail in details:
+                    if detail.get('offer_type', None) == None:
+                        raise serializers.ValidationError({"error":"Detail must include offer_type"}, code=400)
+
+
+                    if detail['offer_type'].lower() not in {'basic','standard', 'premium'}:
+                        raise serializers.ValidationError({"error":"Offer_type must be: basic, standard or premium"}, code=400)
+            
+        return super().validate(attrs)
+
     def create(self, validated_data):
         """
         Create a new offer and its related offer detail entries.
@@ -71,7 +99,6 @@ class OfferSerializer(serializers.ModelSerializer):
                         continue
                     setattr(detail_instace, attr, value)
                     detail_instace.save()
-
         return instance
 
     class Meta:
