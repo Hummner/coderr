@@ -33,6 +33,14 @@ class OfferSerializer(serializers.ModelSerializer):
 
 
     def validate(self, attrs):
+
+        """
+        Validate offer_detail for POST and PATCH requests.
+
+        - POST: requires exactly three offer_detail items with offer_type basic, standard, and premium.
+        - PATCH: checks provided offer_detail items for a valid offer_type.
+        """
+        
         if self.context['request'].method == "POST":
             details = attrs['offer_detail']
             if len(details) != 3:
