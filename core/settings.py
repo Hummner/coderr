@@ -30,7 +30,8 @@ SECRET_KEY = 'django-insecure-j^tke7b3$ibrl)yfn#&b@ec5@ikpqnf4@6+%q0!mj0^gje$se+
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1'
+    '127.0.0.1',
+    'backend-hetzner.bence-cservenyak.com'
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
