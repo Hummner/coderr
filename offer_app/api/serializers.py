@@ -54,7 +54,7 @@ class OfferSerializer(serializers.ModelSerializer):
         
 
         if self.context['request'].method == "PATCH":
-            if attrs['offer_detail']:
+            if attrs.get('offer_detail', None):
                 details = attrs['offer_detail']
                     
                 for detail in details:
